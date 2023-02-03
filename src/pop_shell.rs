@@ -9,6 +9,8 @@ pub fn pop_shell_navigate(method_call: &str) -> Result<(), Box<dyn std::error::E
         Duration::from_millis(5000),
     );
 
+    println!("navigating {}", method_call);
+
     proxy.method_call("com.System76.PopShell", method_call, ())?;
 
     Ok(())

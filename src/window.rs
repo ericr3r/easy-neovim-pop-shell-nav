@@ -1,6 +1,6 @@
 use dbus::blocking::Connection;
 use human_regex::{
-    any, beginning, end, named_capture, one_or_more, text, whitespace, zero_or_more,
+    any, beginning, end, named_capture, non_whitespace, one_or_more, text, whitespace, zero_or_more,
 };
 use jwilm_xdo::Xdo;
 use regex::Regex;
@@ -49,8 +49,10 @@ fn nvim_regex() -> Regex {
         + one_or_more(any())
         + text("nvim")
         + zero_or_more(whitespace())
-        + named_capture(one_or_more(any()), "directory")
+        + named_capture(one_or_more(non_whitespace()), "directory")
+        + zero_or_more(any())
         + zero_or_more(whitespace())
+        + zero_or_more(any())
         + text("[")
         + named_capture(zero_or_more(any()), "server_name")
         + text("]")

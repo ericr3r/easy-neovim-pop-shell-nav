@@ -15,19 +15,23 @@ use crate::{command::is_navigation, window::directory};
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let command = Cli::parse().command;
 
-    if let Some(window_name) = get_window_title() {
-        println!("window title: {}", window_name);
+    if is_navigation(command) {
+        if let Some(window_name) = get_window_title() {
+            println!("window title: {}", window_name);
 
-        if is_navigation(command) {
             return navigate(window_name, command);
-        }
-
-        if let Some(directory) = directory(&window_name) {
-            return open_terminal(directory);
         }
     }
 
-    Ok(())
+    let default_path = "/home/eric/projects";
+
+    match get_window_title() {
+        Some(window_name) => match directory(&window_name) {
+            Some(directory) => open_terminal(directory),
+            None => open_terminal(default_path),
+        },
+        None => open_terminal(default_path),
+    }
 }
 
 fn navigate(

@@ -73,7 +73,7 @@ pub fn directory<'a>(window_name: &'a str) -> Option<&'a str> {
         return Some(directory);
     }
 
-    Some("/home/eric/projects")
+    None
 }
 
 fn directory_from_nvim_title<'a>(window_name: &'a str) -> Option<&'a str> {

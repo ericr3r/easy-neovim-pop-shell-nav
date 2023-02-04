@@ -40,7 +40,7 @@ Here are example keybindings for `Pop Shell`:
 | `Super` + `j` | `easy-neovim-pop-shell-nav down`  |
 | `Super` + `k` | `easy-neovim-pop-shell-nav up`    |
 | `Super` + `l` | `easy-neovim-pop-shell-nav right` |
-| Super + z | easy-neovim-pop-shell-nav open  |
+| `Super` + `z` | `easy-neovim-pop-shell-nav open`  |
 
 ### Wayland usage
 

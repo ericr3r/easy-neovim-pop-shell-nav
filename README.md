@@ -40,9 +40,14 @@ Here are example keybindings for `Pop Shell`:
 | `Super` + `j` | `easy-neovim-pop-shell-nav down`  |
 | `Super` + `k` | `easy-neovim-pop-shell-nav up`    |
 | `Super` + `l` | `easy-neovim-pop-shell-nav right` |
+| `Super` + `z` | `easy-neovim-pop-shell-nav open`  |
+
+### Wayland usage
+
+In order to use with Wayland, the [Window Calls Extended](https://extensions.gnome.org/extension/4974/window-calls-extended/) extension will need to be installed.
 
 ## Status
 
-Let's be honest, at this point it `seems to work on my machine.`  I'm new to rust and by no means is the code production ready or of good quality. That being said, I'm open to issues and PRs and will continue to mantain this code as long as it is of use to me.
+Let's be honest, at this point it `seems to work on my machine.`  I'm new to rust and by no means is the code production ready or of good quality. That being said, I'm open to issues and PRs and will continue to maintain this code as long as it is of use to me.
 
 

@@ -111,6 +111,7 @@ dependencies = [
  "human_regex",
  "jwilm-xdo",
  "neovim-lib",
+ "regex",
 ]
 
 [[package]]

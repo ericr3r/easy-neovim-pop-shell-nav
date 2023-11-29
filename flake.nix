@@ -17,7 +17,7 @@
         ];
       in
       {
-        defaultPackage = naersk-lib.buildPackage { 
+        defaultPackage = naersk-lib.buildPackage {
           src = ./.;
           doCheck = true;
           pname = "easy-neovim-pop-shell-nav";
@@ -26,7 +26,7 @@
             dbus
             xdotool
             xorg.libX11
-            pkgconfig
+            pkg-config
           ];
 
           postInstall = ''
@@ -39,16 +39,16 @@
           drv = self.defaultPackage."${system}";
         };
         devShell = with pkgs; mkShell {
-          buildInputs = [ 
-          cargo
-          rustc
-          rustfmt
-          pre-commit
-          rustPackages.clippy
-          pkgconfig
-          xdotool
-          xorg.libX11
-          dbus
+          buildInputs = [
+            cargo
+            rustc
+            rustfmt
+            pre-commit
+            rustPackages.clippy
+            pkg-config
+            xdotool
+            xorg.libX11
+            dbus
           ];
           RUST_SRC_PATH = rustPlatform.rustLibSrc;
         };

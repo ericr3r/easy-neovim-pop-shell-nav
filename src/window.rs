@@ -2,11 +2,17 @@ use dbus::blocking::Connection;
 use human_regex::{
     any, beginning, end, named_capture, non_whitespace, one_or_more, text, whitespace, zero_or_more,
 };
+use hyprland::data::Client;
+use hyprland::prelude::*;
 use jwilm_xdo::Xdo;
 use regex::Regex;
 use std::time::Duration;
 
 pub fn get_window_title() -> Option<String> {
+    if let Some(title) = get_window_title_from_hyprland() {
+        return Some(title);
+    }
+
     if let Ok(title) = get_window_title_from_gnome() {
         return Some(title);
     }
@@ -42,6 +48,12 @@ fn get_window_title_from_gnome() -> Result<String, Box<dyn std::error::Error>> {
     let (title,): (String,) =
         proxy.method_call("org.gnome.Shell.Extensions.WindowsExt", "FocusTitle", ())?;
     return Ok(title);
+}
+
+fn get_window_title_from_hyprland() -> Option<String> {
+    let client = Client::get_active().ok()?;
+    let title = client?.title;
+    Some(title)
 }
 
 fn nvim_regex() -> Regex {

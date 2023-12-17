@@ -12,3 +12,4 @@ clap = {version = "3.2.20", features = ["derive"]}
 human_regex = "0.2.3"
 neovim-lib = "0.6.1"
 regex =  "1"
+hyprland =  "=0.3.11"

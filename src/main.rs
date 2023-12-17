@@ -1,15 +1,17 @@
 mod command;
 mod nvim;
 mod pop_shell;
+mod server;
 mod window;
 
 use clap::Parser;
 use command::Cli;
-use nvim::vim_navigate;
+use nvim::Nvim;
 use pop_shell::pop_shell_navigate;
 use std::process;
-use window::{get_window_title, nvim_server};
+use window::get_window_title;
 
+use crate::server::Server;
 use crate::{command::is_navigation, window::directory};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -38,8 +40,8 @@ fn navigate(
     window_name: String,
     command: command::Command,
 ) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
-    if let Some(server_name) = nvim_server(&window_name) {
-        match vim_navigate(server_name, command.to_vim_direction()) {
+    if let Some(nvim_server) = Nvim::new(&window_name) {
+        match nvim_server.navigate(command) {
             Err(_) => return pop_shell_navigate(command.to_pop_os_method_call()),
             _ => return Ok(()),
         }

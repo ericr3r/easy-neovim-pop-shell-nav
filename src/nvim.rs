@@ -50,8 +50,6 @@ impl<'a> Nvim<'a> {
 
 impl<'a> Server<'a> for Nvim<'a> {
     fn navigate(&self, command: Command) -> Result<(), Box<dyn std::error::Error>> {
-        println!("{}", self.server_name);
-
         let direction = command.to_vim_direction();
 
         let mut session = Session::new_unix_socket(self.server_name)?;

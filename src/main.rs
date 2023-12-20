@@ -15,8 +15,10 @@ use crate::server::{Server, ServerError};
 use crate::{command::is_navigation, window::directory};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let command = Cli::parse().command;
+    let args = Cli::parse();
+    println!("{args:?}");
 
+    let command = args.command;
     let title = get_window_title();
 
     if is_navigation(command) {

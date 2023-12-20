@@ -1,11 +1,12 @@
 use clap::{Parser, ValueEnum};
 use std::fmt;
 
-#[derive(Parser)]
-#[clap(author, version, about, long_about = None)]
+#[derive(Parser, Debug)]
 pub struct Cli {
-    #[clap(arg_enum, value_parser)]
+    #[clap(value_enum)]
     pub command: Command,
+    #[clap(short, long, value_enum, default_value_t = Backend::PopOS)]
+    pub backend: Backend,
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ValueEnum)]
@@ -15,6 +16,12 @@ pub enum Command {
     Left,
     Right,
     Open,
+}
+
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ValueEnum)]
+pub enum Backend {
+    Hyprland,
+    PopOS,
 }
 
 impl fmt::Display for Command {

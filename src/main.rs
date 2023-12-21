@@ -1,4 +1,5 @@
 mod command;
+mod hypr;
 mod nvim;
 mod pop_shell;
 mod server;
@@ -10,22 +11,29 @@ use nvim::Nvim;
 use std::process;
 use window::get_window_title;
 
+use crate::hypr::Hypr;
 use crate::pop_shell::PopShell;
-use crate::server::{Server, ServerError};
-use crate::{command::is_navigation, window::directory};
+use crate::server::Server;
+use crate::{command::is_navigation, command::Backend, window::directory};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
     println!("{args:?}");
 
     let command = args.command;
+
+    let server: Box<dyn Server> = match args.backend {
+        Backend::Hyprland => Box::new(Hypr::new()) as Box<dyn Server>,
+        _ => Box::new(PopShell::new().ok_or("pop shell backend failed")?) as Box<dyn Server>,
+    };
+
     let title = get_window_title();
 
     if is_navigation(command) {
         if let Some(window_name) = title {
             println!("window title: {}", window_name);
 
-            return navigate(window_name, command);
+            return navigate(server, window_name, command);
         }
     }
 
@@ -41,23 +49,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn navigate(
+    server: Box<dyn Server>,
     window_name: String,
     command: command::Command,
 ) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
-    let shell = PopShell::new();
     if let Some(nvim_server) = Nvim::new(&window_name) {
         match nvim_server.navigate(command) {
-            Err(_) => {
-                return shell
-                    .ok_or(ServerError::new("no window movement"))?
-                    .navigate(command)
-            }
+            Err(_) => return server.navigate(command),
             _ => return Ok(()),
         }
     } else {
-        return shell
-            .ok_or(ServerError::new("no window movement"))?
-            .navigate(command);
+        return server.navigate(command);
     }
 }
 

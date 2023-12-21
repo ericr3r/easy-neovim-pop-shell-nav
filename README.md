@@ -42,6 +42,16 @@ Here are example keybindings for `Pop Shell`:
 | `Super` + `l` | `easy-neovim-pop-shell-nav right` |
 | `Super` + `z` | `easy-neovim-pop-shell-nav open`  |
 
+### Hyprland key bindings
+
+```
+
+bind = $mainMod, left, exec, easy-neovim-pop-shell-nav left --backend hyprland
+bind = $mainMod, right, exec, easy-neovim-pop-shell-nav right --backend hyprland 
+bind = $mainMod, up, exec, easy-neovim-pop-shell-nav up --backend hyprland 
+bind = $mainMod, down, exec, easy-neovim-pop-shell-nav down --backend hyprland 
+```
+
 ### Wayland usage
 
 In order to use with Wayland, the [Window Calls Extended](https://extensions.gnome.org/extension/4974/window-calls-extended/) extension will need to be installed.

@@ -13,7 +13,6 @@ impl Hypr {
 
 impl<'a> Server<'a> for Hypr {
     fn navigate(&self, command: Command) -> Result<(), Box<dyn std::error::Error>> {
-        println!("{command}");
         let direction = match command {
             Command::Up => Direction::Up,
             Command::Down => Direction::Down,

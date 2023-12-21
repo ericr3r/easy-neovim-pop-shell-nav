@@ -1,12 +1,18 @@
+use crate::nvim::nvim_regex;
 use dbus::blocking::Connection;
-use human_regex::{
-    any, beginning, end, named_capture, non_whitespace, one_or_more, text, whitespace, zero_or_more,
-};
+use hyprland::data::Client;
+use hyprland::prelude::*;
 use jwilm_xdo::Xdo;
-use regex::Regex;
+use std::panic;
 use std::time::Duration;
 
+use human_regex::{any, beginning, end, named_capture, non_whitespace, one_or_more, text};
+
 pub fn get_window_title() -> Option<String> {
+    if let Some(title) = get_window_title_from_hyprland() {
+        return Some(title);
+    }
+
     if let Ok(title) = get_window_title_from_gnome() {
         return Some(title);
     }
@@ -44,28 +50,14 @@ fn get_window_title_from_gnome() -> Result<String, Box<dyn std::error::Error>> {
     return Ok(title);
 }
 
-fn nvim_regex() -> Regex {
-    let regex_string = beginning()
-        + one_or_more(any())
-        + text("nvim")
-        + zero_or_more(whitespace())
-        + named_capture(one_or_more(non_whitespace()), "directory")
-        + zero_or_more(any())
-        + zero_or_more(whitespace())
-        + zero_or_more(any())
-        + text("[")
-        + named_capture(zero_or_more(any()), "server_name")
-        + text("]")
-        + zero_or_more(any())
-        + end();
+fn get_window_title_from_hyprland() -> Option<String> {
+    let result = panic::catch_unwind(|| {
+        let client = Client::get_active().ok()?;
+        let title = client?.title;
+        Some(title)
+    });
 
-    regex_string.to_regex()
-}
-
-pub fn nvim_server<'a>(window_name: &'a str) -> Option<&'a str> {
-    let caps = nvim_regex().captures(window_name)?;
-    let server_name = caps.name("server_name")?.as_str();
-    Some(server_name)
+    result.ok()?
 }
 
 pub fn directory<'a>(window_name: &'a str) -> Option<&'a str> {

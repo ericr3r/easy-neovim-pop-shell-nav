@@ -38,7 +38,7 @@ impl<'a> Server<'a> for Sway {
         let msg = match command {
             Command::Up => "focus up",
             Command::Down => "focus down",
-            Command::Left => "focup left",
+            Command::Left => "focus left",
             _ => "focus right",
         };
 

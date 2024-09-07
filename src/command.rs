@@ -22,6 +22,7 @@ pub enum Command {
 pub enum Backend {
     Hyprland,
     PopOS,
+    Sway
 }
 
 impl fmt::Display for Command {

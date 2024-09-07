@@ -69,6 +69,10 @@ impl<'a> Server<'a> for Nvim<'a> {
             return Ok(());
         }
     }
+
+    fn get_window_title(&self) -> Option<String> {
+        None
+    }
 }
 
 pub fn nvim_regex() -> regex::Regex {

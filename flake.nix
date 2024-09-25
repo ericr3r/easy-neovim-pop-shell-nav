@@ -57,10 +57,8 @@
 
       # deprecated attributes for retro compatibility
       overlay = overlays.default;
-      overlays.default = final: _: {
-        easy-neovim-pop-shell-nav = import ./default.nix {
-          pkgs = final;
-        };
+      overlays.default = final: prev: {
+        easy-neovim-pop-shell-nav = prev.callPackage ./default.nix;
       };
     };
 }

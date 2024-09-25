@@ -6,7 +6,7 @@
   };
 
   outputs = { self, nixpkgs, utils, naersk }:
-    utils.lib.eachDefaultSystem (system:
+    (utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
         naersk-lib = pkgs.callPackage naersk { };
@@ -16,6 +16,7 @@
           dbus
         ];
       in
+      rec
       {
         defaultPackage = naersk-lib.buildPackage {
           src = ./.;
@@ -52,5 +53,14 @@
           ];
           RUST_SRC_PATH = rustPlatform.rustLibSrc;
         };
-      });
+      })) // rec {
+
+      # deprecated attributes for retro compatibility
+      overlay = overlays.default;
+      overlays.default = final: _: {
+        easy-neovim-pop-shell-nav = import ./default.nix {
+          pkgs = final;
+        };
+      };
+    };
 }

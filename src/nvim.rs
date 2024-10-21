@@ -77,7 +77,7 @@ impl<'a> Server<'a> for Nvim<'a> {
 
 pub fn nvim_regex() -> regex::Regex {
     let regex_string = beginning()
-        + one_or_more(any())
+        + zero_or_more(any())
         + text("nvim")
         + zero_or_more(whitespace())
         + named_capture(one_or_more(non_whitespace()), "directory")

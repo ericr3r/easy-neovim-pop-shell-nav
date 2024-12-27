@@ -39,7 +39,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    let default_path = "/home/eric/projects";
+    let default_path = String::from("/home/eric/projects");
 
     match title {
         Some(window_name) => match directory(&window_name) {
@@ -65,7 +65,7 @@ fn navigate(
     }
 }
 
-fn open_terminal(directory: &str) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
+fn open_terminal(directory: String) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
     process::Command::new("ghostty")
         .args([format!("--working-directory={}", directory)])
         .stdout(process::Stdio::null())

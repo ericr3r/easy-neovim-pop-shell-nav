@@ -66,8 +66,8 @@ fn navigate(
 }
 
 fn open_terminal(directory: &str) -> Result<(), Box<(dyn std::error::Error + 'static)>> {
-    process::Command::new("kitty")
-        .args(["--working-directory", directory])
+    process::Command::new("ghostty")
+        .args([format!("--working-directory={}", directory)])
         .stdout(process::Stdio::null())
         .stderr(process::Stdio::null())
         .spawn()?;
